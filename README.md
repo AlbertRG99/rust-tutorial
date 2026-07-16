@@ -71,10 +71,10 @@ fn main() {
 
 Las variables no se crean en memoria como tal, sino que se almacena en una dirección de memoria y se asocia el nombre a esa dirección ("binding"):
 
-![](./media/Pasted%20image%20260714124628.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714124628.png?raw=true)
 
 No se puede cambiar algo de nombre s**in eliminar la variable original** porque ese nombre original es **dueño** de ese valor. Habría que usar borrowing.
-![](./media/Pasted%20image%20260714125144.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714125144.png?raw=true)
 
 ```rust
 let nombre: String=String::from("Juan");
@@ -86,7 +86,7 @@ println!("{}", nombre); // ya no se va a imprimir porque ya no tiene el ownershi
 
 ## 2. Variables inmutables vs mutables vs constantes
 
-![](./media/Pasted%20image%20260714143037.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714143037.png?raw=true)
 
 - Se pueden declarar **fuera de una función**: let/const
 - No se pueden declarar **fuera de una función**: let mut
@@ -102,7 +102,7 @@ Lo hace creando una referencia a él (mutable o inmutable), permitiendo leerlo o
 
 Con esto se aumenta la seguridad. Así evitas lo que suele pasar en C++: Punteros colgantes, accesos simultáneos o modificaciones no controladas.
 
-![](./media/Pasted%20image%20260714151830.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714151830.png?raw=true)
 
 Si intento copiar una variable en otra, y elimino la primera, me va a dar error porque la nueva variable no apunta a la posición de memoria sino a la variable original:
 
@@ -118,7 +118,7 @@ println!("Préstamo: {}", referencia); // ERROR: La variable a la que hacía ref
 ```
 
 - **Importante**: Cuando una variable original **mutable** está prestada a otra variable, no se puede leer desde otra variable. UNA LOCURA!
-![](./media/Pasted%20image%20260714184215.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714184215.png?raw=true)
 
 #### Problemas del ownership/borrowing
 
@@ -242,7 +242,7 @@ let s: String=String::from("Hola"); // 's' SÍ tiene el ownership (SE puede modi
 let t: &str="Adios"; // 't' NO tiene el ownership (NO se puede modificar y vive mientras lo haga la variable que lo apunta)
 ```
 
-![](./media/Pasted%20image%20260715153848.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260715153848.png?raw=true)
 
 ## 5. Slices
 
@@ -267,7 +267,7 @@ let s: String=String::from("Hola alumnos");
 let saludo: &str=&s[0..4];
 ```
 
-![](./media/Pasted%20image%20260715155437.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260715155437.png?raw=true)
 
 ```rust
 let numeros: [i32; 5] = [1, 2, 3, 4, 5];
@@ -466,7 +466,7 @@ for n in numeros.iter() {          // 2. iter()
 }
 ```
 
-![](./media/Pasted%20image%20260716022025.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260716022025.png?raw=true)
 
 ## 6.4. Creación y uso de vectores V (Map(), filter, collect())
 
@@ -476,7 +476,7 @@ Vectores dinámicos (Vec):
     - **map()**
     - **collect()**
 
-![](./media/Pasted%20image%20260716022437.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260716022437.png?raw=true)
 
 Imagina que quiero recorrer un vector, tomar solo los valores pares, multiplicarlos y mostrarlo por consola:
 
@@ -507,7 +507,7 @@ numeros
 println!("{}", multip);
 ```
 
-![](./media/Pasted%20image%20260716024755.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260716024755.png?raw=true)
 
 #### APARTADO: Closures / funciones anónimas
 
@@ -631,7 +631,7 @@ Qué es un hashmap?
     - Agrupamiento de datos por categorías.
     - Sesiones de usuario (ID usuario -> Token usuario).
 
-![](./media/Pasted%20image%20260716162210.png)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260716162210.png?raw=true)
 
 - Para insertar elementos se usa `.insert(k:&str, v:f64)`.
 - Para leer un elemento en base su clave se usa `.get(k)`.

@@ -1,28 +1,20 @@
-import re
 from pathlib import Path
+import re
 
-# Carpeta raíz donde buscar los .md
-ROOT = Path(".")
+REPO = "https://github.com/AlbertRG99/rust-tutorial/blob/main"
 
-# Busca enlaces de Obsidian del tipo ![[...]]
-pattern = re.compile(r'!\[\[(.*?)\]\]')
+patron = re.compile(r'!\[\]\(\.?/?media/([^)]+)\)')
 
-for md_file in ROOT.rglob("*.md"):
-    contenido = md_file.read_text(encoding="utf-8")
+for md in Path(".").rglob("*.md"):
+    contenido = md.read_text(encoding="utf-8")
 
-    def reemplazar(match):
-        ruta = match.group(1).strip()
-
-        # Si no empieza por ./ ni ../, añadir ./
-        if not ruta.startswith(("./", "../")):
-            ruta = f"./{ruta}"
-
-        return f"![]({ruta})"
-
-    nuevo = pattern.sub(reemplazar, contenido)
+    nuevo = patron.sub(
+        lambda m: f"![]({REPO}/media/{m.group(1)}?raw=true)",
+        contenido
+    )
 
     if nuevo != contenido:
-        md_file.write_text(nuevo, encoding="utf-8")
-        print(f"✔ Modificado: {md_file}")
+        md.write_text(nuevo, encoding="utf-8")
+        print(f"✔ Modificado: {md}")
 
-print("Conversión finalizada.")
+print("Conversión terminada.")
