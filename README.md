@@ -1,20 +1,3 @@
-# Tutorial de Rust
-
-## Compilación y ejecución
-
-- cargo new proyecto
-- cargo run
-- cargo clean
-
-## Teoría
-
-- **Macros**: Son funciones que generan código en tiempo de compilación. Las macros no reciben valores sino código. Usan "!" al final.
- 
-```rust
-fn main() {
-    println!("Hello, world")
-}
-```
 
 ## Compilación y ejecución
 
@@ -48,8 +31,8 @@ fn main() {
     - isize/usize (depende de la arquitectura del CPU)
   - Floats
 - **Compuestos**:
-    - Tuplas
-    - Arrays
+	- Tuplas
+	- Arrays
 
 ## 1. Declaración de variables
 
@@ -58,23 +41,23 @@ Las variables son inmutables por defecto, es decir, no se pueden cambiar.
 ```rust
 fn main() {
 
-    let edad: i32=30;
-    
-    let mensaje: &str="Hola";
-    
-    let precio: f64=19.99;
-    
-    let activa: bool=true;
+	let edad: i32=30;
+	
+	let mensaje: &str="Hola";
+	
+	let precio: f64=19.99;
+	
+	let activa: bool=true;
 
 }
 ```
 
 Las variables no se crean en memoria como tal, sino que se almacena en una dirección de memoria y se asocia el nombre a esa dirección ("binding"):
 
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714124628.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260714124628.png?raw=true)
 
 No se puede cambiar algo de nombre s**in eliminar la variable original** porque ese nombre original es **dueño** de ese valor. Habría que usar borrowing.
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714125144.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260714125144.png?raw=true)
 
 ```rust
 let nombre: String=String::from("Juan");
@@ -86,7 +69,7 @@ println!("{}", nombre); // ya no se va a imprimir porque ya no tiene el ownershi
 
 ## 2. Variables inmutables vs mutables vs constantes
 
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714143037.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260714143037.png?raw=true)
 
 - Se pueden declarar **fuera de una función**: let/const
 - No se pueden declarar **fuera de una función**: let mut
@@ -102,7 +85,7 @@ Lo hace creando una referencia a él (mutable o inmutable), permitiendo leerlo o
 
 Con esto se aumenta la seguridad. Así evitas lo que suele pasar en C++: Punteros colgantes, accesos simultáneos o modificaciones no controladas.
 
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714151830.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260714151830.png?raw=true)
 
 Si intento copiar una variable en otra, y elimino la primera, me va a dar error porque la nueva variable no apunta a la posición de memoria sino a la variable original:
 
@@ -118,7 +101,7 @@ println!("Préstamo: {}", referencia); // ERROR: La variable a la que hacía ref
 ```
 
 - **Importante**: Cuando una variable original **mutable** está prestada a otra variable, no se puede leer desde otra variable. UNA LOCURA!
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260714184215.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260714184215.png?raw=true)
 
 #### Problemas del ownership/borrowing
 
@@ -127,14 +110,14 @@ De esta forma, cuando deja de ejecutarse ese bloque, saca la variable de memoria
 
 ```rust
 struct Tupla {
-    a: i64,
-    b: i64,
+	a: i64,
+	b: i64,
 }
 
 fn main() {
-    if ... {
-        let tupla = Tupla { a:4, b:2 }; // la tupla pertenece al scoope del IF.
-    }
+	if ... {
+		let tupla = Tupla { a:4, b:2 }; // la tupla pertenece al scoope del IF.
+	}
 }
 ```
 
@@ -144,22 +127,22 @@ Una variable pertenece a la última función donde se haya introducido/declarado
 
 ```rust
 struct Tupla {
-    a: i64,
-    b: i64,
+	a: i64,
+	b: i64,
 }
 
 fn sumar(tpl: Tupla) -> i64 {
-    tpl.a + tpl.b
+	tpl.a + tpl.b
 }
 
 fn restar(tpl: Tupla) -> i64 {
-    tpl.a - tpl.b
+	tpl.a - tpl.b
 }
 
 fn main() {
-    let tupla = Tupla { a:4, b:2 }; // tupla pertenece a main()
-    let suma = sumar(tupla); // AHORA tupla pertenece a suma() y deja de funcionar para main()!!
-    let resta = restar(tupla); // ERROR: No compila porque el ownership de tupla ya no está en la función main()
+	let tupla = Tupla { a:4, b:2 }; // tupla pertenece a main()
+	let suma = sumar(tupla); // AHORA tupla pertenece a suma() y deja de funcionar para main()!!
+	let resta = restar(tupla); // ERROR: No compila porque el ownership de tupla ya no está en la función main()
 }
 ```
 
@@ -167,22 +150,22 @@ fn main() {
 
 ```rust
 struct Tupla {
-    a: i64,
-    b: i64,
+	a: i64,
+	b: i64,
 }
 
 fn sumar(tpl: &Tupla) -> i64 { // paso por referencia
-    tpl.a + tpl.b
+	tpl.a + tpl.b
 }
 
 fn restar(tpl: &Tupla) -> i64 { // paso por referencia
-    tpl.a - tpl.b
+	tpl.a - tpl.b
 }
 
 fn main() {
-    let tupla = Tupla { a:4, b:2 }; // tupla pertenece a main()
-    let suma = sumar(&tupla); // Paso por referencia (mantiene ownership)
-    let resta = restar(&tupla); // Paso por referencia (mantiene ownership)
+	let tupla = Tupla { a:4, b:2 }; // tupla pertenece a main()
+	let suma = sumar(&tupla); // Paso por referencia (mantiene ownership)
+	let resta = restar(&tupla); // Paso por referencia (mantiene ownership)
 }
 ```
 
@@ -194,22 +177,22 @@ fn main() {
 #[derive(Clone)]
 
 struct Tupla {
-    a: i64,
-    b: i64,
+	a: i64,
+	b: i64,
 }
 
 fn sumar(tpl: &Tupla) -> i64 { // paso por referencia
-    tpl.a + tpl.b
+	tpl.a + tpl.b
 }
 
 fn restar(tpl: &Tupla) -> i64 { // paso por referencia
-    tpl.a - tpl.b
+	tpl.a - tpl.b
 }
 
 fn main() {
-    let tupla = Tupla { a:4, b:2 }; // tupla pertenece a main()
-    let suma = sumar(tupla.clone()); // Paso por copia
-    let resta = restar(tupla.clone()); // Paso por copia
+	let tupla = Tupla { a:4, b:2 }; // tupla pertenece a main()
+	let suma = sumar(tupla.clone()); // Paso por copia
+	let resta = restar(tupla.clone()); // Paso por copia
 }
 ```
 
@@ -223,8 +206,8 @@ Esto quiere decir que si se hace referencia a algo que ya no existe o existía d
 let r;
 
 { //bloque de código
-    let s=String::from("Hola");
-    r = &s; // fuera de este bloque, "s" no vive
+	let s=String::from("Hola");
+	r = &s; // fuera de este bloque, "s" no vive
 }
 
 println!("{}", r);
@@ -242,7 +225,7 @@ let s: String=String::from("Hola"); // 's' SÍ tiene el ownership (SE puede modi
 let t: &str="Adios"; // 't' NO tiene el ownership (NO se puede modificar y vive mientras lo haga la variable que lo apunta)
 ```
 
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260715153848.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260715153848.png?raw=true)
 
 ## 5. Slices
 
@@ -252,9 +235,9 @@ El slice tiene borrowing y lifetime.
 
 Para qué sirven?
 - Para tener mayor eficiencia y seguridad:
-    - Evita copias innecesarias.
-    - Pasa datos a funciones de forma seguira.
-    - Permite APIs más flexibles.
+	- Evita copias innecesarias.
+	- Pasa datos a funciones de forma seguira.
+	- Permite APIs más flexibles.
 
 El slice se crea con una referencia (a lo que apunta) y un rango (lo que quiero obtener):
 
@@ -267,7 +250,7 @@ let s: String=String::from("Hola alumnos");
 let saludo: &str=&s[0..4];
 ```
 
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260715155437.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260715155437.png?raw=true)
 
 ```rust
 let numeros: [i32; 5] = [1, 2, 3, 4, 5];
@@ -299,9 +282,9 @@ Qué es un Vec?:
 
 Qué guarda en memoria un Vec?
 - En el stack guarda una cabecera con 3 datos:
-    - **ptr**-> puntero al heap donde están los elementos.
-    - **len**-> cuántos elementos hay actualmente.
-    - **cap**-> cuántos elementos caben sin realocar ("mudanza" a otro vector para agrandarlo).
+	- **ptr**-> puntero al heap donde están los elementos.
+	- **len**-> cuántos elementos hay actualmente.
+	- **cap**-> cuántos elementos caben sin realocar ("mudanza" a otro vector para agrandarlo).
 
 Por qué usar Vec en lugar de simples arrays?. Cuando no sabes de antemano:
 
@@ -400,10 +383,10 @@ Vectores dinámicos:
 let numeros: Vec<i32>=vec![1,2,3];
 
 for n: i32 in numeros{ // ownership del array transferido al iterador del bucle
-    println!("{:?}", n);
+	println!("{:?}", n);
 }
 for n: i32 in numeros{ // ERROR: ownership del array no existe
-    println!("{:?}", n);
+	println!("{:?}", n);
 }
 ```
 
@@ -415,10 +398,10 @@ El problema es que cuando se recorre un array, el **ownership cambia al iterador
 let numeros: Vec<i32>=vec![1,2,3];
 
 for n: &i32 in &numeros{ // NO hay transferencia de ownership (OK)
-    println!("{:?}", n);
+	println!("{:?}", n);
 }
 for n: &i32 in &numeros{ // NO hay transferencia de ownership (OK)
-    println!("{:?}", n);
+	println!("{:?}", n);
 }
 ```
 
@@ -434,7 +417,7 @@ Requisitos:
 let mut numeros = vec![1, 2, 3]; // 1. vector mutable
 
 for n in &mut numeros {      // 2. bucle mutable y referenciado
-    println!("{:?}", *n+=1); // 3. desreferenciado (*)
+	println!("{:?}", *n+=1); // 3. desreferenciado (*)
 }
 ```
 
@@ -454,7 +437,7 @@ Solo es necesario:
 let mut numeros = vec![1, 2, 3]; // 1. vector mutable
 
 for n in numeros.iter_mut() {      // 2. iter_mut()
-    println!("{:?}", *n+=1);       // 3. desreferenciado (*)
+	println!("{:?}", *n+=1);       // 3. desreferenciado (*)
 }
 ```
 
@@ -462,21 +445,21 @@ for n in numeros.iter_mut() {      // 2. iter_mut()
 let numeros = vec![1, 2, 3]; // 1. vector inmutable
 
 for n in numeros.iter() {          // 2. iter()
-    println!("{:?}", *n+=1);       // 3. desreferenciado (*)
+	println!("{:?}", *n+=1);       // 3. desreferenciado (*)
 }
 ```
 
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260716022025.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260716022025.png?raw=true)
 
 ## 6.4. Creación y uso de vectores V (Map(), filter, collect())
 
 Vectores dinámicos (Vec):
 - Iteradores:
-    - **filter()**
-    - **map()**
-    - **collect()**
+	- **filter()**
+	- **map()**
+	- **collect()**
 
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260716022437.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260716022437.png?raw=true)
 
 Imagina que quiero recorrer un vector, tomar solo los valores pares, multiplicarlos y mostrarlo por consola:
 
@@ -486,9 +469,9 @@ let numeros = vec![1, 2, 3, 4, 5, 6];
 let mut multip: i32=1;
 
 for n in numeros.iter() {
-    if (n%2==0) {
-        multip = multip*n;
-    }
+	if (n%2==0) {
+		multip = multip*n;
+	}
 }
 
 println!("{}", multip);
@@ -500,14 +483,14 @@ let numeros = vec![1, 2, 3, 4, 5, 6];
 let mut multip: i32=1;
 
 numeros
-    .iter()
-    .filter(|n|*n%2==0)
-    .map(|multip: i32|*n);
+	.iter()
+	.filter(|n|*n%2==0)
+	.map(|multip: i32|*n);
 
 println!("{}", multip);
 ```
 
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260716024755.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260716024755.png?raw=true)
 
 #### APARTADO: Closures / funciones anónimas
 
@@ -532,15 +515,15 @@ Para sacar el valor interno de, por ejemplo `Some(10)` se usa `.unwrap()`.
 
 Vectores dinámicos (Vec):
 - Iteradores:
-    - **sum()** -> Retorna el tipo que le indiques
-    - **find()** -> Hay que desreferenciar. Retorna un `Option<&i32>`
-    - **count()** -> Retorna un `unsize`.
-    - **any()** -> Retorna un `bool`.
-    - **all()** -> Retorna un `bool`.
-    - **max()** -> Retorna un `Option<&i32>`. NO FUNCIONA SOBRE NÚMEROS DECIMALES.
-    - **min()** -> Retorna un `Option<&i32>`. NO FUNCIONA SOBRE NÚMEROS DECIMALES.
-    - **max_by()** -> 
-    - **min_by()** -> 
+	- **sum()** -> Retorna el tipo que le indiques
+	- **find()** -> Hay que desreferenciar. Retorna un `Option<&i32>`
+	- **count()** -> Retorna un `unsize`.
+	- **any()** -> Retorna un `bool`.
+	- **all()** -> Retorna un `bool`.
+	- **max()** -> Retorna un `Option<&i32>`. NO FUNCIONA SOBRE NÚMEROS DECIMALES.
+	- **min()** -> Retorna un `Option<&i32>`. NO FUNCIONA SOBRE NÚMEROS DECIMALES.
+	- **max_by()** -> 
+	- **min_by()** -> 
 
 ```rust
 let numeros: Vec<i32>=vec![1,2,3,4,5,6];
@@ -587,8 +570,8 @@ Queremos crear un programa en Rust al que le vamos a proporcionar las notas de u
 
 ```rust
 let _notas: Vec<f32> = vec![
-    8.75, 6.50, 9.20, 4.80, 7.35,
-    5.90, 10.00, 3.45, 8.10, 9.95,
+	8.75, 6.50, 9.20, 4.80, 7.35,
+	5.90, 10.00, 3.45, 8.10, 9.95,
 ];
 
 let aprobadas: Vec<f32>;
@@ -619,28 +602,28 @@ max_by(|a,b|a.partial_cmp(b).unwrap());
 Qué es un hashmap?
 - Una colección que permite almacenar datos en forma de clave-valor.
 - Un HashMap sirve para guardar datos asociados a una clave. En lugar de mencionar la posición para acceder a valores como ocurre con vectores, se mencionan las claves.
-    - Ejemplo:
-        - "Ana"->8,5
-        - "Luis"->4,2
-        - "Marta"->9,1
-    - Importante: Si modificas un hashmap existente, se reescribe el original y se pierde el valor original.
+	- Ejemplo:
+		- "Ana"->8,5
+		- "Luis"->4,2
+		- "Marta"->9,1
+	- Importante: Si modificas un hashmap existente, se reescribe el original y se pierde el valor original.
 - Un vector es ideal cuando tengo una lista ordenada de elementos. Un hashmap es más útil cuando quiero buscar un dat por una clave, como por ejemplo, un identificador, un código, una palabra, un usuario, ...
 - Casos de uso del HashMap (mejor que vectores):
-    - Caché de datos.
-    - Configuración de una aplicación (ej: modo, idioma, tema, ...).
-    - Agrupamiento de datos por categorías.
-    - Sesiones de usuario (ID usuario -> Token usuario).
+	- Caché de datos.
+	- Configuración de una aplicación (ej: modo, idioma, tema, ...).
+	- Agrupamiento de datos por categorías.
+	- Sesiones de usuario (ID usuario -> Token usuario).
 
-![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%20260716162210.png?raw=true)
+![](https://github.com/AlbertRG99/rust-tutorial/blob/main/media/Pasted%20image%2020260716162210.png?raw=true)
 
 - Para insertar elementos se usa `.insert(k:&str, v:f64)`.
 - Para leer un elemento en base su clave se usa `.get(k)`.
 - Para recorrerlo en un bucle for:
 
 ```rust
-    for (key,value) in &hashmap {
-        ...
-    }
+	for (key,value) in &hashmap {
+		...
+	}
 ```
 
 ```rust
@@ -660,7 +643,6 @@ println!("Nota de Marta: {:#?}", nota_marta.unwrap());
 
 // Recorrerlo con un bucle for (k,v)
 for (alumno,nota) in &notas {
-    println!("El alumno {:#?} tiene una nota de {:?}", alumno, nota);
+	println!("El alumno {:#?} tiene una nota de {:?}", alumno, nota);
 }
 ```
-

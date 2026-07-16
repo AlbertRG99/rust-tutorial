@@ -1,20 +1,28 @@
 from pathlib import Path
+from urllib.parse import quote
 import re
 
 REPO = "https://github.com/AlbertRG99/rust-tutorial/blob/main"
 
-patron = re.compile(r'!\[\]\(\.?/?media/([^)]+)\)')
+patron = re.compile(r'!\[\[(.*?)\]\]')
 
 for md in Path(".").rglob("*.md"):
-    contenido = md.read_text(encoding="utf-8")
+    texto = md.read_text(encoding="utf-8")
 
-    nuevo = patron.sub(
-        lambda m: f"![]({REPO}/media/{m.group(1)}?raw=true)",
-        contenido
-    )
+    def reemplazar(match):
+        ruta = match.group(1).strip()
 
-    if nuevo != contenido:
+        # Si la imagen no está en media/, añadirlo
+        if not ruta.startswith("media/"):
+            ruta = "media/" + ruta
+
+        # Codificar espacios
+        ruta = quote(ruta)
+
+        return f"![]({REPO}/{ruta}?raw=true)"
+
+    nuevo = patron.sub(reemplazar, texto)
+
+    if nuevo != texto:
         md.write_text(nuevo, encoding="utf-8")
-        print(f"✔ Modificado: {md}")
-
-print("Conversión terminada.")
+        print(f"✔ {md}")
